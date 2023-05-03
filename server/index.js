@@ -1,9 +1,11 @@
-const fs = require("fs");
-
 const express = require("express");
+const cors = require("cors");
+
+const fs = require("fs");
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 function getData() {
@@ -91,7 +93,6 @@ app.delete("/api/users/:id", (req, res) => {
 
       fs.writeFileSync("data.json", JSON.stringify(dataArr));
       res.json(deletedData[0]);
-
     } else {
       res.status(404).send("Data not found");
     }

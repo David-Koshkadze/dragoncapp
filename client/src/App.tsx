@@ -1,35 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import "./App.css";
+import { usersStore } from "./store/usersStore";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const users = usersStore((state) => state.users);
+  const loading = usersStore((state) => state.loading);
+  const hasErrors = usersStore((state) => state.hasErrors);
+  const fetchUsers = usersStore((state) => state.fetch);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      {loading ? <p>Loading</p> : null}
+      {hasErrors ? <p>Cannot read the data</p> : null}
+
+      <div className="app-flex">
+        {users.map((user, idx) => (
+          <div key={user.id}>
+            <p>{user.name}</p>
+          </div>
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
