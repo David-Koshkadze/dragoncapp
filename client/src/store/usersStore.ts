@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 import axios from "axios";
 
-const baseURL = ""
+const baseURL = "http://localhost:5000";
 
 interface User {
   id: number;
@@ -20,7 +20,7 @@ interface UserState {
   loading: Boolean;
   hasErrors: Boolean;
   fetch: () => {};
-
+  deleteUser: (userId: number) => {};
 }
 
 export const usersStore = create<UserState>((set) => ({
@@ -30,7 +30,7 @@ export const usersStore = create<UserState>((set) => ({
   fetch: async () => {
     set(() => ({ loading: true }));
     try {
-      const res = await axios.get("http://localhost:5000/api/users");
+      const res = await axios.get(`${baseURL}/api/users`);
 
       set((state) => ({ users: (state.users = res.data), loading: false }));
     } catch (err) {
@@ -40,8 +40,12 @@ export const usersStore = create<UserState>((set) => ({
 
   deleteUser: async (userId) => {
     try {
-      const res = 
+      await axios.delete(`${baseURL}/api/users/${userId}`);
+      set((state) => ({
+        users: state.users.filter((item) => item.id != userId),
+      }));
+    } catch (err) {
+      console.error(err);
     }
-  }
-
+  },
 }));
