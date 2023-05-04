@@ -13,7 +13,7 @@ interface User {
     street: string;
     city: string;
   };
-  phone: string
+  phone: string;
 }
 
 interface UserState {
@@ -21,6 +21,7 @@ interface UserState {
   loading: Boolean;
   hasErrors: Boolean;
   fetch: () => {};
+  addUser: (user: User) => {};
   deleteUser: (userId: number) => {};
 }
 
@@ -36,6 +37,15 @@ export const usersStore = create<UserState>((set) => ({
       set((state) => ({ users: (state.users = res.data), loading: false }));
     } catch (err) {
       set(() => ({ hasErrors: true, loading: false }));
+    }
+  },
+
+  addUser: async (user) => {
+    try {
+      const res = await axios.post(`${baseURL}/api/users`, user);
+      set((state) => ({ users: [...state.users, res.data] }));
+    } catch (error) {
+      console.error(error);
     }
   },
 

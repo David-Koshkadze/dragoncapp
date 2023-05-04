@@ -55,6 +55,7 @@ function App() {
   const loading = usersStore((state) => state.loading);
   const hasErrors = usersStore((state) => state.hasErrors);
   const fetchUsers = usersStore((state) => state.fetch);
+  const addUser = usersStore((state) => state.addUser);
   const deleteUser = usersStore((state) => state.deleteUser);
 
   function handleDelete(key: number) {
@@ -68,6 +69,7 @@ function App() {
   const handleSubmit = (values: any) => {
     setIsModalOpen(false);
     console.log(values);
+    addUser(values);
   };
 
   useEffect(() => {

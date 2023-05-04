@@ -62,6 +62,22 @@ export default function AddUserModal({
           </Select>
         </Form.Item>
 
+        <Form.Item
+          name={["address", "street"]}
+          label="Street"
+          rules={[{ required: true, message: "Please enter a street" }]}
+        >
+          <Input placeholder="Enter street" />
+        </Form.Item>
+
+        <Form.Item
+          name={["address", "city"]}
+          label="City"
+          rules={[{ required: true, message: "Please enter a city" }]}
+        >
+          <Input placeholder="Enter city" />
+        </Form.Item>
+
         <Form.Item name="phone" label="Phone">
           <Input />
         </Form.Item>
