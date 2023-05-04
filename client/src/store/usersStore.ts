@@ -13,6 +13,7 @@ interface User {
     street: string;
     city: string;
   };
+  phone: string
 }
 
 interface UserState {

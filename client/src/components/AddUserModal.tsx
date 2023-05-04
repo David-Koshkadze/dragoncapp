@@ -35,10 +35,24 @@ export default function AddUserModal({
       onCancel={onCancel}
     >
       <Form form={form} name="control-forms" layout="vertical">
-        <Form.Item name="name" label="Name" rules={[{ required: true }]}>
+        <Form.Item
+          name="name"
+          label="Name"
+          rules={[{ required: true, message: "Name is required" }]}
+        >
           <Input />
         </Form.Item>
-        <Form.Item name="email" label="Email" rules={[{ required: true }]}>
+        <Form.Item
+          name="email"
+          label="Email"
+          rules={[
+            {
+              type: "email",
+              message: "Email is not valid",
+            },
+            { required: true, message: "Email is required" },
+          ]}
+        >
           <Input />
         </Form.Item>
         <Form.Item name="gender" label="Gender" rules={[{ required: true }]}>
@@ -46,6 +60,10 @@ export default function AddUserModal({
             <Option value="male">male</Option>
             <Option value="female">female</Option>
           </Select>
+        </Form.Item>
+
+        <Form.Item name="phone" label="Phone">
+          <Input />
         </Form.Item>
       </Form>
     </Modal>
