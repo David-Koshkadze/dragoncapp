@@ -2,12 +2,17 @@ import { create } from "zustand";
 
 import axios from "axios";
 
+const baseURL = ""
+
 interface User {
   id: number;
   name: string;
   email: string;
   gender: string;
-  address: {};
+  address: {
+    street: string;
+    city: string;
+  };
 }
 
 interface UserState {
@@ -15,6 +20,7 @@ interface UserState {
   loading: Boolean;
   hasErrors: Boolean;
   fetch: () => {};
+
 }
 
 export const usersStore = create<UserState>((set) => ({
@@ -31,4 +37,11 @@ export const usersStore = create<UserState>((set) => ({
       set(() => ({ hasErrors: true, loading: false }));
     }
   },
+
+  deleteUser: async (userId) => {
+    try {
+      const res = 
+    }
+  }
+
 }));
