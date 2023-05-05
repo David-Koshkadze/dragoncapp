@@ -1,4 +1,4 @@
-import { Pie } from "@ant-design/plots";
+import { Pie, PieConfig } from "@ant-design/plots";
 import { usersStore } from "../store/usersStore";
 
 import { User, CityCount, CityCountStats } from "../types/userTypes";
@@ -19,8 +19,6 @@ function getCityCounts(data: User[]): CityCountStats[] {
     value: count,
   }));
 
-  console.log(cityStats);
-
   return cityStats;
 }
 
@@ -29,7 +27,7 @@ export default function PieChart() {
 
   const data = getCityCounts(users);
 
-  const config = {
+  const config: PieConfig | any = {
     appendPadding: 10,
     data,
     angleField: "value",
@@ -41,7 +39,7 @@ export default function PieChart() {
       content: ({ percent }: { percent: number }) =>
         `${(percent * 100).toFixed(0)}%`,
       style: {
-        fontSize: 15,
+        fontSize: 16,
         textAlign: "center",
       },
     },

@@ -1,12 +1,6 @@
 import React from "react";
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 
 import Container from "./components/Container";
 import Users from "./pages/Users";
@@ -17,7 +11,7 @@ export default function App() {
   return (
     <Router>
       <Container>
-        <nav style={{marginTop: '1rem'}}>
+        <nav style={{ marginTop: "1rem", marginBottom: "1rem" }}>
           <Space>
             <Link to="/">Home</Link>
             <Link to="/chart">Chart</Link>

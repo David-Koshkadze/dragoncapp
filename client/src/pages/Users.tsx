@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { usersStore } from "../store/usersStore";
 
-import { Button, Popconfirm, Space, Table } from "antd";
-import "antd/dist/reset.css";
+import { Button, Popconfirm, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
+import "antd/dist/reset.css";
+
 import AddUserModal from "../components/AddUserModal";
 import Container from "../components/Container";
 
@@ -77,8 +78,6 @@ export default function Users() {
     fetchUsers();
   }, []);
 
-  console.log(users);
-
   const tableColumns = [
     ...defaultTableColumns,
     {
@@ -110,11 +109,11 @@ export default function Users() {
       />
 
       <Button
-        style={{ margin: "1rem auto" }}
+        style={{ marginBottom: "1rem" }}
         type="primary"
         onClick={showModal}
       >
-        Add
+        Add User
       </Button>
 
       <Table dataSource={users} columns={tableColumns} />
