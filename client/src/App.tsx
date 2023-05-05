@@ -5,6 +5,7 @@ import { Button, Popconfirm, Table } from "antd";
 import "antd/dist/reset.css";
 import { ColumnsType } from "antd/es/table";
 import AddUserModal from "./components/AddUserModal";
+import PieChart from "./components/PieChart";
 
 interface DataType {
   key: string;
@@ -121,6 +122,9 @@ function App() {
         </Button>
 
         <Table dataSource={users} columns={tableColumns} />
+
+        <PieChart />
+
       </div>
     </>
   );

@@ -2,19 +2,9 @@ import { create } from "zustand";
 
 import axios from "axios";
 
-const baseURL = "http://localhost:5000";
+import { User } from "../types/userTypes";
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  gender: string;
-  address: {
-    street: string;
-    city: string;
-  };
-  phone: string;
-}
+const baseURL = "http://localhost:5000";
 
 interface UserState {
   users: User[];
