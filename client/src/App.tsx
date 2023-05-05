@@ -1,134 +1,34 @@
-import { useEffect, useState } from "react";
-import { usersStore } from "./store/usersStore";
+import React from "react";
 
-import { Button, Popconfirm, Space, Table } from "antd";
-import "antd/dist/reset.css";
-import { ColumnsType } from "antd/es/table";
-import AddUserModal from "./components/AddUserModal";
-import PieChart from "./components/PieChart";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Routes,
+} from "react-router-dom";
 
-interface DataType {
-  key: string;
-  name: string;
-  email: string;
-  gender: string;
-  address: {
-    street: string;
-    city: string;
-  };
-  phone: string;
-}
+import Container from "./components/Container";
+import Users from "./pages/Users";
+import Chart from "./pages/Chart";
+import { Space } from "antd";
 
-const defaultTableColumns: ColumnsType<DataType> = [
-  {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-  },
-  {
-    title: "Email",
-    dataIndex: "email",
-    key: "email",
-  },
-  {
-    title: "Gender",
-    dataIndex: "gender",
-    key: "gender",
-  },
-  {
-    title: "Address",
-    key: "address",
-    render: ({ address }: { address: { street: string; city: string } }) => {
-      return `${address.street}, ${address.city}`;
-    },
-  },
-  {
-    title: "Phone",
-    dataIndex: "phone",
-    key: "phone",
-  },
-];
-
-function App() {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  const users = usersStore((state) => state.users);
-  const loading = usersStore((state) => state.loading);
-  const hasErrors = usersStore((state) => state.hasErrors);
-  const fetchUsers = usersStore((state) => state.fetch);
-  const addUser = usersStore((state) => state.addUser);
-  const deleteUser = usersStore((state) => state.deleteUser);
-
-  function handleDelete(key: number) {
-    deleteUser(key);
-  }
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleSubmit = (values: any) => {
-    setIsModalOpen(false);
-    console.log(values);
-    addUser(values);
-  };
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  console.log(users);
-
-  const tableColumns = [
-    ...defaultTableColumns,
-    {
-      title: "Action",
-      dataIndex: "action",
-      key: "action",
-      render: (_: any, record: { id: number }) => (
-        <Popconfirm
-          title="Are you sure to delete?"
-          onConfirm={() => handleDelete(record.id)}
-        >
-          <Button type="default" danger>
-            Delete
-          </Button>
-        </Popconfirm>
-      ),
-    },
-  ];
-
+export default function App() {
   return (
-    <>
-      {loading ? <p>Loading</p> : null}
-      {hasErrors ? <p>Cannot read the data</p> : null}
+    <Router>
+      <Container>
+        <nav style={{marginTop: '1rem'}}>
+          <Space>
+            <Link to="/">Home</Link>
+            <Link to="/chart">Chart</Link>
+          </Space>
+        </nav>
+      </Container>
 
-      <div
-        style={{
-          maxWidth: "1280px",
-          margin: "0 auto",
-          paddingLeft: "15px",
-          paddingRight: "15px",
-        }}
-      >
-        <AddUserModal
-          open={isModalOpen}
-          onCreate={handleSubmit}
-          onCancel={() => setIsModalOpen(false)}
-        />
-
-        <Space style={{margin: '1rem auto'}}>
-          <Button type="primary" onClick={showModal}>
-            Add
-          </Button>
-
-          <Button type="link">See Chart</Button>
-        </Space>
-
-        <Table dataSource={users} columns={tableColumns} />
-      </div>
-    </>
+      <Routes>
+        <Route path="/" element={<Users />}></Route>
+        <Route path="/chart" element={<Chart />}></Route>
+      </Routes>
+    </Router>
   );
 }
-
-export default App;

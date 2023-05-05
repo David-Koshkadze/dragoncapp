@@ -24,7 +24,7 @@ function getCityCounts(data: User[]): CityCountStats[] {
   return cityStats;
 }
 
-const PieChart = () => {
+export default function PieChart() {
   const users = usersStore((state) => state.users);
 
   const data = getCityCounts(users);
@@ -52,6 +52,4 @@ const PieChart = () => {
     ],
   };
   return <Pie {...config} />;
-};
-
-export default PieChart;
+}
