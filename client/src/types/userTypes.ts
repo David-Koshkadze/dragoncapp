@@ -9,3 +9,10 @@ export interface User {
   };
   phone: string;
 }
+
+export type CityCount = { [key: string]: number };
+
+export interface CityCountStats {
+  type: String;
+  value: number;
+}

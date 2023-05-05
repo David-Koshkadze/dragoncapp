@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { usersStore } from "./store/usersStore";
 
-import { Button, Popconfirm, Table } from "antd";
+import { Button, Popconfirm, Space, Table } from "antd";
 import "antd/dist/reset.css";
 import { ColumnsType } from "antd/es/table";
 import AddUserModal from "./components/AddUserModal";
@@ -117,14 +117,15 @@ function App() {
           onCancel={() => setIsModalOpen(false)}
         />
 
-        <Button type="default" onClick={showModal}>
-          Add
-        </Button>
+        <Space style={{margin: '1rem auto'}}>
+          <Button type="primary" onClick={showModal}>
+            Add
+          </Button>
+
+          <Button type="link">See Chart</Button>
+        </Space>
 
         <Table dataSource={users} columns={tableColumns} />
-
-        <PieChart />
-
       </div>
     </>
   );
