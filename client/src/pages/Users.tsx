@@ -6,7 +6,10 @@ import { ColumnsType } from "antd/es/table";
 import "antd/dist/reset.css";
 
 import AddUserModal from "../components/AddUserModal";
+import EditUserModal from "../components/EditUserModal";
 import Container from "../components/Container";
+
+import { User } from "../types/userTypes";
 
 interface DataType {
   key: string;
@@ -52,12 +55,16 @@ const defaultTableColumns: ColumnsType<DataType> = [
 
 export default function Users() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+
+  const [editingUser, setEditingUser] = useState<User | {}>();
 
   const users = usersStore((state) => state.users);
   const loading = usersStore((state) => state.loading);
   const hasErrors = usersStore((state) => state.hasErrors);
   const fetchUsers = usersStore((state) => state.fetch);
   const addUser = usersStore((state) => state.addUser);
+  const updateUser = usersStore((state) => state.updateUser);
   const deleteUser = usersStore((state) => state.deleteUser);
 
   function handleDelete(key: number) {
@@ -72,6 +79,10 @@ export default function Users() {
     setIsModalOpen(false);
     console.log(values);
     addUser(values);
+  };
+
+  const handleEdit = (values: any) => {
+    console.log(values);
   };
 
   useEffect(() => {
@@ -97,6 +108,10 @@ export default function Users() {
     },
   ];
 
+  useEffect(() => {
+
+  }, [editingUser]);
+
   return (
     <Container>
       {loading ? <p>Loading</p> : null}
@@ -108,6 +123,14 @@ export default function Users() {
         onCancel={() => setIsModalOpen(false)}
       />
 
+      <EditUserModal
+        defaultValues={editingUser || {}}
+        setDefaultValues={setEditingUser}
+        open={isEditModalOpen}
+        onEdit={handleEdit}
+        onCancel={() => setIsEditModalOpen(false)}
+      />
+
       <Button
         style={{ marginBottom: "1rem" }}
         type="primary"
@@ -116,7 +139,19 @@ export default function Users() {
         Add User
       </Button>
 
-      <Table dataSource={users} columns={tableColumns} />
+      <Table
+        dataSource={users}
+        columns={tableColumns}
+        onRow={(record, rowIndex) => {
+          return {
+            onDoubleClick: (event) => {
+              console.log(record);
+              setEditingUser(record);
+              setIsEditModalOpen(true);
+            },
+          };
+        }}
+      />
     </Container>
   );
 }

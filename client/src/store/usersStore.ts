@@ -12,6 +12,7 @@ interface UserState {
   hasErrors: Boolean;
   fetch: () => {};
   addUser: (user: User) => {};
+  updateUser: (userId: number, updatedUser: User) => {};
   deleteUser: (userId: number) => {};
 }
 
@@ -36,6 +37,23 @@ export const usersStore = create<UserState>((set) => ({
       set((state) => ({ users: [...state.users, res.data] }));
     } catch (error) {
       console.error(error);
+    }
+  },
+
+  updateUser: async (userId, updatedUser) => {
+    try {
+      await axios.put(`${baseURL}/api/users/${userId}`, updatedUser);
+
+      set((state) => ({
+        users: state.users.map((user) => {
+          if (user.id === userId) {
+            return { ...user, ...updatedUser };
+          }
+          return user;
+        }),
+      }));
+    } catch (err) {
+      console.error(err);
     }
   },
 
