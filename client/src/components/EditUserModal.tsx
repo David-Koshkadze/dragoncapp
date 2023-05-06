@@ -5,6 +5,7 @@ import { useEffect } from "react";
 const { Option } = Select;
 
 interface AddUserModalProps {
+  setEditUserId: (zeroId: number) => void;
   defaultValues: User;
   setDefaultValues: ({}) => void;
   open: boolean;
@@ -13,6 +14,7 @@ interface AddUserModalProps {
 }
 
 export default function EditUserModal({
+  setEditUserId,
   defaultValues,
   setDefaultValues,
   open,
@@ -22,8 +24,13 @@ export default function EditUserModal({
   const [form] = Form.useForm();
 
   useEffect(() => {
-    console.log('Modal Rendered')
-  }, [])
+    console.log("Modal Rendered");
+  }, []);
+
+  function afterClose() {
+    setDefaultValues({});
+    setEditUserId(0);
+  }
 
   return (
     <Modal
@@ -35,7 +42,7 @@ export default function EditUserModal({
         form
           .validateFields()
           .then((values) => {
-            form.resetFields();
+            // form.resetFields();
             onEdit(values);
           })
           .catch((info) => {
@@ -43,7 +50,7 @@ export default function EditUserModal({
           });
       }}
       onCancel={onCancel}
-      afterClose={() => setDefaultValues({})}
+      afterClose={afterClose}
       destroyOnClose={true}
     >
       <Form

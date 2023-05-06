@@ -57,6 +57,8 @@ export default function Users() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
 
+  const [editUserId, setEditUserId] = useState<number>(0);
+
   const [editingUser, setEditingUser] = useState<User | {}>();
 
   const users = usersStore((state) => state.users);
@@ -82,7 +84,7 @@ export default function Users() {
   };
 
   const handleEdit = (values: any) => {
-    console.log(values);
+    updateUser(editUserId, values);
   };
 
   useEffect(() => {
@@ -108,9 +110,7 @@ export default function Users() {
     },
   ];
 
-  useEffect(() => {
-
-  }, [editingUser]);
+  useEffect(() => {}, [editingUser]);
 
   return (
     <Container>
@@ -125,6 +125,7 @@ export default function Users() {
 
       <EditUserModal
         defaultValues={editingUser || {}}
+        setEditUserId={setEditUserId}
         setDefaultValues={setEditingUser}
         open={isEditModalOpen}
         onEdit={handleEdit}
@@ -142,12 +143,13 @@ export default function Users() {
       <Table
         dataSource={users}
         columns={tableColumns}
-        onRow={(record, rowIndex) => {
+        onRow={(record, _) => {
           return {
-            onDoubleClick: (event) => {
+            onDoubleClick: () => {
               console.log(record);
               setEditingUser(record);
               setIsEditModalOpen(true);
+              setEditUserId(record.id);
             },
           };
         }}
