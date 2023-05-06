@@ -2,24 +2,17 @@ import { create } from "zustand";
 
 import axios from "axios";
 
-const baseURL = "http://localhost:5000";
+import { User } from "../types/userTypes";
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  gender: string;
-  address: {
-    street: string;
-    city: string;
-  };
-}
+const baseURL = "http://localhost:5000";
 
 interface UserState {
   users: User[];
   loading: Boolean;
   hasErrors: Boolean;
   fetch: () => {};
+  addUser: (user: User) => {};
+  updateUser: (userId: number, updatedUser: User) => {};
   deleteUser: (userId: number) => {};
 }
 
@@ -35,6 +28,32 @@ export const usersStore = create<UserState>((set) => ({
       set((state) => ({ users: (state.users = res.data), loading: false }));
     } catch (err) {
       set(() => ({ hasErrors: true, loading: false }));
+    }
+  },
+
+  addUser: async (user) => {
+    try {
+      const res = await axios.post(`${baseURL}/api/users`, user);
+      set((state) => ({ users: [...state.users, res.data] }));
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  updateUser: async (userId, updatedUser) => {
+    try {
+      await axios.put(`${baseURL}/api/users/${userId}`, updatedUser);
+
+      set((state) => ({
+        users: state.users.map((user) => {
+          if (user.id === userId) {
+            return { ...user, ...updatedUser };
+          }
+          return user;
+        }),
+      }));
+    } catch (err) {
+      console.error(err);
     }
   },
 
