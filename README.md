@@ -16,6 +16,6 @@ npm run dev
 
 Enjoy!
 
-*There should be little improvements this site*
+*There should be little improvements to this site*
 
 @Made By D.K
